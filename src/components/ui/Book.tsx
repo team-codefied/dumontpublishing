@@ -12,6 +12,8 @@ type BookProps = {
   angle?: number;
   priority?: boolean;
   interactive?: boolean;
+  /** Scroll-driven rotation as "from,to" degrees, e.g. "-46,14". */
+  turn?: string;
   className?: string;
 };
 
@@ -26,13 +28,18 @@ export function Book({
   angle = -24,
   priority = false,
   interactive = false,
+  turn,
   className = "",
 }: BookProps) {
   const book = getBook(slug);
   const style = { "--d": `${depth}px`, "--ry": `${angle}deg` } as CSSProperties;
 
   return (
-    <div className={`book ${interactive ? "book--interactive" : ""} ${className}`} style={style}>
+    <div
+      data-turn={turn}
+      className={`book ${interactive ? "book--interactive" : ""} ${turn ? "book--scrub" : ""} ${className}`}
+      style={style}
+    >
       <div className="book__body">
         <div className="book__cover">
           <Image

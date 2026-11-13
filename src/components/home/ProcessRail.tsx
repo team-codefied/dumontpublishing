@@ -1,4 +1,3 @@
-import { TextLink } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Words } from "@/components/ui/Words";
 import { home } from "@/content/site";
@@ -26,11 +25,6 @@ export function ProcessRail() {
               accent="Published Book"
               className="display-1 mt-7 text-balance text-navy"
             />
-            <div data-fade className="mt-10">
-              <TextLink href="/publishing-process/" className="text-navy">
-                {process.label}
-              </TextLink>
-            </div>
           </header>
 
           <ol className="flex flex-col lg:flex-row">

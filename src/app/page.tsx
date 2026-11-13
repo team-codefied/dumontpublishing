@@ -6,7 +6,7 @@ import { WhyChoose } from "@/components/home/WhyChoose";
 import { ProcessRail } from "@/components/home/ProcessRail";
 import { Genres } from "@/components/home/Genres";
 import { PortfolioShelf } from "@/components/home/PortfolioShelf";
-import { HomeFaqs, Insights, TestimonialsTeaser } from "@/components/home/Closing";
+import { HomeFaqs, Insights } from "@/components/home/Closing";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { Marquee } from "@/components/ui/Marquee";
 import { home, site } from "@/content/site";
@@ -32,7 +32,6 @@ export default function HomePage() {
       <ProcessRail />
       <Genres />
       <PortfolioShelf />
-      <TestimonialsTeaser />
       <Insights />
       <HomeFaqs />
       <CtaBand

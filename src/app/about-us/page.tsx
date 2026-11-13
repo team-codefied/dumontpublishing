@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PointsGrid } from "@/components/home/WhyChoose";
-import { TextLink } from "@/components/ui/Button";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -116,11 +115,6 @@ export default function AboutPage() {
             <p data-fade className="font-display text-[clamp(1.4rem,1vw+1.1rem,1.8rem)] leading-[1.4] text-navy">
               {home.why.text}
             </p>
-            <div data-fade className="mt-10">
-              <TextLink href="/publishing-process/" className="text-navy">
-                Publishing Process
-              </TextLink>
-            </div>
           </div>
         </div>
       </section>

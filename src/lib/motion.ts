@@ -193,6 +193,43 @@ export function initMotion(root: HTMLElement): () => void {
       );
     });
 
+    /* SVG strokes that draw themselves */
+    all<HTMLElement>("[data-draw]").forEach((el) => {
+      const strokes = Array.from(el.querySelectorAll<SVGGeometryElement>("path, circle, line"));
+      strokes.forEach((stroke) => {
+        const length = stroke.getTotalLength();
+        gsap.set(stroke, { strokeDasharray: length, strokeDashoffset: length });
+      });
+      gsap.set(el, { visibility: "visible" });
+      gsap.to(strokes, {
+        strokeDashoffset: 0,
+        duration: num(el.dataset.duration, 1.6),
+        ease: "power3.inOut",
+        stagger: 0.25,
+        delay: num(el.dataset.delay, 0),
+        scrollTrigger: { trigger: el, start: "top 92%", once: true },
+      });
+    });
+
+    /* A book that turns as its section scrolls past */
+    all("[data-turn]").forEach((el) => {
+      const [from, to] = (el.dataset.turn || "-46,14").split(",").map(Number);
+      gsap.fromTo(
+        el,
+        { "--ry": `${from}deg` },
+        {
+          "--ry": `${to}deg`,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el.closest<HTMLElement>("[data-turn-area]") ?? el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
+          },
+        },
+      );
+    });
+
     /* Sequenced children */
     all("[data-stagger]").forEach((el) => {
       gsap.fromTo(

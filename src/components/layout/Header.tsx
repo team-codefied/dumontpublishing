@@ -9,14 +9,15 @@ import { Logo } from "@/components/ui/Logo";
 import { ButtonLink } from "@/components/ui/Button";
 import { categories, servicesInCategory, type CategoryId } from "@/content/services";
 import { coverSrc, getBook } from "@/content/books";
-import { resourcesMenu, site } from "@/content/site";
+import { site } from "@/content/site";
 
-type Menu = "services" | "resources" | null;
+type Menu = "services" | null;
 
 const topLinks = {
   home: { label: "Home", href: "/" },
   about: { label: "About Us", href: "/about-us/" },
   portfolio: { label: "Portfolio", href: "/portfolio/" },
+  blog: { label: "Blog", href: "/blog/" },
   contact: { label: "Contact", href: "/contact-us/" },
 };
 
@@ -150,7 +151,7 @@ export function Header() {
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.about)}</li>
               <li>{menuButton("services", "Services")}</li>
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.portfolio)}</li>
-              <li>{menuButton("resources", "Resources")}</li>
+              <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.blog)}</li>
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.contact)}</li>
             </ul>
           </nav>
@@ -273,43 +274,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Resources dropdown */}
-      <div
-        id="menu-resources"
-        inert={menu !== "resources"}
-        className={`absolute inset-x-0 top-full z-10 hidden border-b border-(--rule) bg-ivory transition-[clip-path,opacity] duration-700 ease-expo xl:block ${
-          menu === "resources"
-            ? "opacity-100 [clip-path:inset(0_0_-2rem_0)]"
-            : "pointer-events-none opacity-0 [clip-path:inset(0_0_100%_0)]"
-        }`}
-      >
-        <div className="shell grid grid-cols-12 gap-x-10 py-12">
-          <p className="eyebrow col-span-3 text-gold-ink">Resources</p>
-          <ul className="col-span-9 grid grid-cols-4 gap-8">
-            {resourcesMenu.map((item, index) => (
-              <li
-                key={item.href}
-                style={{ transitionDelay: menu === "resources" ? `${100 + index * 50}ms` : "0ms" }}
-                className={`border-t border-(--rule) pt-4 transition-[opacity,transform] duration-700 ease-expo ${
-                  menu === "resources" ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                }`}
-              >
-                <span className="folio block text-base text-gold-ink">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <Link
-                  href={item.href}
-                  onClick={closeAll}
-                  className="nav-link mt-2 inline-block font-display text-[1.7rem] leading-tight"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       {/* Mobile menu */}
       <div
         id="mobile-menu"
@@ -329,7 +293,7 @@ export function Header() {
                 { type: "link" as const, ...topLinks.about },
                 { type: "services" as const, label: "Services", href: "/services/" },
                 { type: "link" as const, ...topLinks.portfolio },
-                { type: "resources" as const, label: "Resources", href: "/blog/" },
+                { type: "link" as const, ...topLinks.blog },
                 { type: "link" as const, ...topLinks.contact },
               ].map((item, index) => {
                 const expanded = mobileSection === item.type;
@@ -381,23 +345,7 @@ export function Header() {
                           }`}
                         >
                           <div className="overflow-hidden">
-                            {item.type === "services" ? (
-                              <MobileServices onNavigate={closeAll} />
-                            ) : (
-                              <ul className="space-y-3 pb-6 pl-9">
-                                {resourcesMenu.map((resource) => (
-                                  <li key={resource.href}>
-                                    <Link
-                                      href={resource.href}
-                                      onClick={closeAll}
-                                      className="font-display text-2xl"
-                                    >
-                                      {resource.label}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
+                            <MobileServices onNavigate={closeAll} />
                           </div>
                         </div>
                       </>

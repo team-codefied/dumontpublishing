@@ -6,43 +6,6 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Words } from "@/components/ui/Words";
 import { home } from "@/content/site";
 
-/** Section 8 — a quiet, centred statement. Real author feedback is published on /testimonials/. */
-export function TestimonialsTeaser() {
-  const { testimonials } = home;
-
-  return (
-    <section className="relative py-24 text-center lg:py-40">
-      <div className="shell">
-        <p
-          aria-hidden
-          data-fade
-          data-y="40"
-          className="font-display text-[9rem] leading-[0.6] text-gold lg:text-[13rem]"
-        >
-          “
-        </p>
-        <SectionLabel folio="07" className="mt-2 justify-center">
-          {testimonials.label}
-        </SectionLabel>
-        <Words
-          as="h2"
-          text={testimonials.title}
-          accent="Authors We’ve Worked With"
-          className="display-1 mx-auto mt-7 max-w-4xl text-balance text-navy"
-        />
-        <p data-fade className="lede mx-auto mt-7 max-w-xl text-charcoal/75">
-          {testimonials.text}
-        </p>
-        <div data-fade className="mt-10">
-          <TextLink href="/testimonials/" className="text-navy">
-            {testimonials.label}
-          </TextLink>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /** Section 9 — the six guide titles as an editorial index. */
 export function Insights() {
   const { insights } = home;
@@ -52,7 +15,7 @@ export function Insights() {
       <div className="shell grid gap-x-10 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-32">
-            <SectionLabel folio="08">{insights.label}</SectionLabel>
+            <SectionLabel folio="07">{insights.label}</SectionLabel>
             <Words
               as="h2"
               text={insights.title}
@@ -102,18 +65,13 @@ export function HomeFaqs() {
       <div className="shell">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <SectionLabel folio="09">FAQs</SectionLabel>
+            <SectionLabel folio="08">FAQs</SectionLabel>
             <Words
               as="h2"
               text="Frequently Asked Questions"
               accent="Questions"
               className="display-1 mt-7 text-navy"
             />
-          </div>
-          <div data-fade>
-            <TextLink href="/faqs/" className="text-navy">
-              FAQs
-            </TextLink>
           </div>
         </div>
         <div className="mt-14 lg:mt-20">

@@ -3,11 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 import { ServiceBlocks } from "@/components/services/ServiceBlocks";
-import { Book } from "@/components/ui/Book";
-import { ButtonLink } from "@/components/ui/Button";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { FaqList } from "@/components/ui/FaqList";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { Marquee } from "@/components/ui/Marquee";
 import { PageHero } from "@/components/ui/PageHero";
 import { Words } from "@/components/ui/Words";
 import { getCategory, getService, services } from "@/content/services";
@@ -38,6 +37,8 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
 
   const category = getCategory(service.categoryId);
   const related = service.related.map((s) => getService(s)!);
+  // The names of this page's offerings, set as a band of moving type.
+  const offerings = service.blocks.find((block) => block.type === "solutions")?.items.map((item) => item.name) ?? [];
 
   return (
     <>
@@ -50,40 +51,32 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
         ]}
         label={category.name}
         title={service.title}
-        aside={
-          <div className="mx-auto w-[58%] max-w-[17rem] lg:mr-0 lg:ml-auto lg:w-full [perspective:1600px]">
-            <div data-fade data-y="120" data-delay="0.35" data-duration="1.6">
-              <div data-tilt="10" className="[transform-style:preserve-3d]">
-                <div data-float="10">
-                  <Book
-                    slug={service.cover}
-                    sizes="(min-width: 1024px) 272px, 58vw"
-                    depth={30}
-                    priority
-                    interactive
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        }
+        numeral={service.number}
+        formService={service.label}
       >
         <p className="lede text-charcoal/80">{service.intro}</p>
-        <div className="mt-9">
-          <ButtonLink href={site.primaryCta.href}>{site.primaryCta.label}</ButtonLink>
-        </div>
       </PageHero>
 
-      <ServiceBlocks blocks={service.blocks} />
+      {offerings.length ? (
+        <Marquee
+          items={offerings}
+          duration={Math.max(36, offerings.length * 8)}
+          className="outline-marquee border-b border-navy/15 py-7 font-display text-[clamp(2.4rem,5vw,4.6rem)] leading-none text-navy"
+        />
+      ) : null}
+
+      <ServiceBlocks blocks={service.blocks} cover={service.cover} label={service.label} />
 
       {/* FAQs */}
       <section className="shell grid gap-x-10 gap-y-10 py-20 lg:grid-cols-12 lg:py-32">
         <div className="lg:col-span-4">
-          <span data-line className="block h-px bg-navy/25" />
-          <Words as="h2" text="FAQs" className="display-1 mt-6 text-navy" />
-          <p data-fade className="mt-4 text-[0.975rem] text-charcoal/70">
-            {service.label}
-          </p>
+          <div className="lg:sticky lg:top-32">
+            <span data-line className="block h-px bg-navy/25" />
+            <Words as="h2" text="FAQs" className="display-1 mt-6 text-navy" />
+            <p data-fade className="mt-4 text-[0.975rem] text-charcoal/70">
+              {service.label}
+            </p>
+          </div>
         </div>
         <div className="lg:col-span-7 lg:col-start-6">
           <FaqList questions={service.faqs} />

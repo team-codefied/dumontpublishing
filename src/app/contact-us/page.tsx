@@ -22,6 +22,7 @@ export default function ContactPage() {
         label={site.primaryCta.label}
         title={contactPage.title}
         accent="Your Book Project"
+        form={false}
       >
         <p className="lede text-charcoal/80">{contactPage.intro}</p>
       </PageHero>

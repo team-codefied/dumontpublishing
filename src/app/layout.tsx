@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { home, site } from "@/content/site";
 import { organizationJsonLd, siteUrl, websiteJsonLd } from "@/lib/seo";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <Preloader />
         <SmoothScroll />
+        <SiteChrome />
         <Header />
         <main id="main" className="relative z-2">
           {children}

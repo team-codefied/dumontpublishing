@@ -596,3 +596,153 @@ textarea.field__control {
     scroll-behavior: auto !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Revision 2 — lead forms, ornaments, footer, cursor
+------------------------------------------------------------------- */
+/* Lead form: the field styles, inverted for the navy panel */
+.lead-form .field__control {
+  padding-top: 1.45rem;
+  padding-bottom: 0.6rem;
+  color: var(--color-ivory);
+  border-bottom-color: color-mix(in srgb, var(--color-ivory) 30%, transparent);
+  font-size: 1rem;
+}
+.lead-form textarea.field__control {
+  min-height: 4.2rem;
+}
+.lead-form .field__control:focus {
+  border-bottom-color: var(--color-ivory);
+}
+.lead-form .field__label {
+  color: var(--color-gold);
+  font-size: 0.68rem;
+}
+.lead-form option {
+  color: var(--color-navy);
+  background: var(--color-ivory);
+}
+.lead-form .field[data-invalid="true"] .field__control {
+  border-bottom-color: #f0a595;
+}
+.lead-form .field__control:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-ivory);
+  box-shadow: 0 0 0 100px var(--color-navy) inset;
+  caret-color: var(--color-ivory);
+}
+
+/* Seal: a slowly turning ring of type */
+.seal__ring {
+  animation: seal-turn 22s linear infinite;
+}
+@keyframes seal-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Drawn strokes start hidden until GSAP measures and draws them */
+html.motion [data-draw] {
+  visibility: hidden;
+}
+
+/* A book whose rotation is driven by scroll must not ease on its own */
+.book--scrub .book__body {
+  transition: none;
+}
+
+/* Cover strip: the shelf slows to a stop under the pointer */
+@media (hover: hover) {
+  .cover-strip:hover .marquee__track {
+    animation-play-state: paused;
+  }
+  .cover-strip__item {
+    transition: transform 0.8s var(--ease-expo);
+  }
+  .cover-strip__item:hover {
+    transform: translateY(-0.75rem) rotate(-2deg);
+  }
+}
+
+/* Footer imprint: letters rise when the footer scrolls into view */
+.footer-mark {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.footer-mark span {
+  display: inline-block;
+}
+html.motion .footer-mark span {
+  transform: translateY(105%);
+  transition: transform 1.3s var(--ease-expo);
+  transition-delay: calc(var(--i) * 80ms);
+}
+html.motion [data-inview="true"] .footer-mark span {
+  transform: translateY(0);
+}
+html.motion .footer-rise {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition:
+    opacity 1.1s var(--ease-expo),
+    transform 1.1s var(--ease-expo);
+  transition-delay: calc(var(--i, 0) * 110ms);
+}
+html.motion [data-inview="true"] .footer-rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom cursor (pointer devices only; added by <SiteChrome>) */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 150;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: -1.25rem 0 0 -1.25rem;
+  border: 1px solid var(--color-gold);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    width 0.45s var(--ease-expo),
+    height 0.45s var(--ease-expo),
+    margin 0.45s var(--ease-expo),
+    background-color 0.45s,
+    opacity 0.4s;
+}
+.cursor-ring[data-visible="true"] {
+  opacity: 1;
+}
+.cursor-ring[data-active="true"] {
+  width: 4.25rem;
+  height: 4.25rem;
+  margin: -2.125rem 0 0 -2.125rem;
+  background: color-mix(in srgb, var(--color-gold) 22%, transparent);
+}
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 2px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seal__ring {
+    animation: none;
+  }
+}
+
+/* Marquee of offering names: every other name is set in outline */
+.outline-marquee li:nth-child(even) > span:first-child {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px currentColor;
+  font-style: italic;
+}

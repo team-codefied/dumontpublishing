@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Book } from "@/components/ui/Book";
-import { TextLink } from "@/components/ui/Button";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { FaqList } from "@/components/ui/FaqList";
 import { PageHero } from "@/components/ui/PageHero";
@@ -125,11 +124,6 @@ export default function ServicesPage() {
                 className="display-1 mt-7 text-balance"
               />
             </div>
-            <div data-fade>
-              <TextLink href="/publishing-process/" className="text-gold">
-                {home.process.label}
-              </TextLink>
-            </div>
           </div>
           <ol data-stagger="0.08" className="mt-16 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-6">
             {home.process.steps.map((step, index) => (
@@ -148,11 +142,6 @@ export default function ServicesPage() {
         <div className="lg:col-span-4">
           <SectionLabel>Our Services</SectionLabel>
           <Words as="h2" text="FAQs" className="display-1 mt-7 text-navy" />
-          <div data-fade className="mt-8">
-            <TextLink href="/faqs/" className="text-navy">
-              FAQs
-            </TextLink>
-          </div>
         </div>
         <div className="lg:col-span-7 lg:col-start-6">
           <FaqList questions={home.faqs} />

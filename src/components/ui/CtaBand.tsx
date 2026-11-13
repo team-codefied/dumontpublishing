@@ -1,6 +1,8 @@
 import { Book } from "@/components/ui/Book";
 import { ButtonLink } from "@/components/ui/Button";
+import { Seal } from "@/components/ui/Ornaments";
 import { Words } from "@/components/ui/Words";
+import { site } from "@/content/site";
 import type { BookSlug } from "@/content/books";
 
 type CtaBandProps = {
@@ -32,7 +34,11 @@ export function CtaBand({
       </div>
 
       <div className="shell relative py-28 text-center lg:py-44">
-        <span data-line="y" className="mx-auto mb-10 block h-16 w-px bg-gold" />
+        <div data-fade data-y="40" className="mb-10 flex justify-center">
+          <Seal text={site.name} tone="light" className="size-28">
+            <span className="font-display text-3xl text-gold italic">D</span>
+          </Seal>
+        </div>
         <Words
           as="h2"
           text={title}

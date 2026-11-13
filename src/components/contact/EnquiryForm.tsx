@@ -1,20 +1,11 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { services } from "@/content/services";
 import { contactPage, home } from "@/content/site";
-import { enquiryLabels, parseEnquiry, validateEnquiry, type EnquiryField } from "@/lib/enquiry";
-
-type Status = "idle" | "sending" | "sent" | "not_configured" | "error";
-type Errors = Partial<Record<EnquiryField, string>>;
-
-const statusMessage: Partial<Record<Status, string>> = {
-  not_configured:
-    "This form is not yet connected to an inbox, so your enquiry has not been sent. Please try again soon.",
-  error: "Your enquiry could not be sent. Please check your connection and try again.",
-};
+import { enquiryLabels, type EnquiryField } from "@/lib/enquiry";
+import { enquiryStatusMessage as statusMessage, useEnquiry } from "@/lib/useEnquiry";
 
 function Field({
   name,
@@ -51,48 +42,9 @@ export function EnquiryForm() {
   const question = params.get("question") ?? "";
   // A submission made before scripts loaded comes back with ?status=…
   const returned = params.get("status");
-  const [status, setStatus] = useState<Status>(
+  const { status, errors, onSubmit, describe, reset } = useEnquiry(
     returned === "sent" || returned === "not_configured" || returned === "error" ? returned : "idle",
   );
-  const [errors, setErrors] = useState<Errors>({});
-
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const raw = Object.fromEntries(new FormData(form).entries());
-    const enquiry = parseEnquiry(raw);
-    const found = validateEnquiry(enquiry);
-    setErrors(found);
-
-    const firstInvalid = Object.keys(found)[0];
-    if (firstInvalid) {
-      form.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
-      return;
-    }
-
-    setStatus("sending");
-    try {
-      const response = await fetch("/api/enquiry/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(raw),
-      });
-      if (response.ok) {
-        setStatus("sent");
-        form.reset();
-      } else if (response.status === 503) {
-        setStatus("not_configured");
-      } else if (response.status === 422) {
-        const data = (await response.json()) as { errors?: Errors };
-        setErrors(data.errors ?? {});
-        setStatus("idle");
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
-  }
 
   if (status === "sent") {
     return (
@@ -101,14 +53,14 @@ export function EnquiryForm() {
           <Check aria-hidden strokeWidth={1.5} />
         </span>
         <p className="display-2 mt-8 text-navy">Thank you. Your enquiry has been sent.</p>
-        <button type="button" onClick={() => setStatus("idle")} className="link-line mt-8 text-navy">
+        <button type="button" onClick={reset} className="link-line mt-8 text-navy">
           Send another enquiry
         </button>
       </div>
     );
   }
 
-  const describe = (name: EnquiryField) => (errors[name] ? { "aria-describedby": `${name}-error`, "aria-invalid": true } : {});
+
 
   return (
     <form onSubmit={onSubmit} method="post" action="/api/enquiry/" noValidate className="grid gap-x-10 gap-y-10 sm:grid-cols-2">

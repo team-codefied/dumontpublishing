@@ -17,20 +17,12 @@ export const site = {
   primaryCta: { label: "Get a Free Consultation", href: "/contact-us/" },
 };
 
-export const resourcesMenu = [
-  { label: "Blog", href: "/blog/" },
-  { label: "Publishing Guides", href: "/blog/#publishing-guides" },
-  { label: "FAQs", href: "/faqs/" },
-  { label: "Publishing Process", href: "/publishing-process/" },
-];
-
 export const quickLinks = [
   { label: "About", href: "/about-us/" },
+  { label: "Our Services", href: "/services/" },
   { label: "Portfolio", href: "/portfolio/" },
-  { label: "Process", href: "/publishing-process/" },
-  { label: "Testimonials", href: "/testimonials/" },
   { label: "Blog", href: "/blog/" },
-  { label: "FAQs", href: "/faqs/" },
+  { label: "Contact", href: "/contact-us/" },
 ];
 
 export const home = {
