@@ -51,7 +51,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionGate }} />
       </head>
-      <body className="min-h-dvh bg-ivory text-charcoal">
+      {/* Browser extensions (e.g. ColorZilla) add attributes to <body> before React loads. */}
+      <body suppressHydrationWarning className="min-h-dvh bg-ivory text-charcoal">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-navy focus:px-5 focus:py-3 focus:text-ivory"
