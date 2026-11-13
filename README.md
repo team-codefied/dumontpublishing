@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dumont Publishing
 
-## Getting Started
+Marketing website for Dumont Publishing, built from the client's
+"Website Structure & Content Strategy" document.
 
-First, run the development server:
+## Stack
+
+- Next.js (App Router) · React · TypeScript
+- Tailwind CSS v4 (design tokens in `src/app/globals.css`)
+- GSAP + ScrollTrigger for motion, Lenis for smooth scrolling
+- Lucide icons
+
+## Structure
+
+```
+src/
+  app/            routes, metadata, sitemap, robots, API route
+  components/     layout / ui / home / services / portfolio / contact
+  content/        all site copy (site.ts, services.ts, books.ts)
+  lib/            motion system, SEO helpers, enquiry validation
+public/
+  books/          the eight supplied covers
+  brand/          logo files cut from the supplied brand sheet
+```
+
+All copy lives in `src/content`. Edit text there, not in components.
+
+## Motion
+
+Components declare animation with data attributes (`data-words`,
+`data-fade`, `data-clip`, `data-parallax`, …) and `src/lib/motion.ts` wires
+them to GSAP once per page view. Everything is disabled under
+`prefers-reduced-motion`.
+
+## Environment variables
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical origin once a custom domain is connected |
+| `RESEND_API_KEY` | Sends enquiry-form emails via resend.com |
+| `ENQUIRY_TO_EMAIL` | Inbox that receives enquiries |
+| `ENQUIRY_FROM_EMAIL` | Verified sender address |
+
+Until the three enquiry variables are set, the contact form validates and
+reports honestly that it is not yet connected; it never fakes a send.
+
+## Commands
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run lint
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
