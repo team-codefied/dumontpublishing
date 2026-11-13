@@ -20,7 +20,6 @@ export const site = {
 export const quickLinks = [
   { label: "About", href: "/about-us/" },
   { label: "Our Services", href: "/services/" },
-  { label: "Portfolio", href: "/portfolio/" },
   { label: "Blog", href: "/blog/" },
   { label: "Contact", href: "/contact-us/" },
 ];

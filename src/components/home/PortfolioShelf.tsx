@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { Book } from "@/components/ui/Book";
-import { TextLink } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Words } from "@/components/ui/Words";
 import { books } from "@/content/books";
@@ -15,7 +13,7 @@ export function PortfolioShelf() {
 
   return (
     <section className="relative overflow-hidden bg-navy py-24 text-ivory lg:py-36">
-      <div className="shell flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div className="shell ">
         <div className="max-w-3xl">
           <SectionLabel folio="06" tone="light">
             {portfolio.label}
@@ -27,11 +25,6 @@ export function PortfolioShelf() {
             accentClassName="italic text-gold"
             className="display-1 mt-7 text-balance"
           />
-        </div>
-        <div data-fade>
-          <TextLink href="/portfolio/" className="text-gold">
-            Our Portfolio
-          </TextLink>
         </div>
       </div>
 
@@ -47,7 +40,7 @@ export function PortfolioShelf() {
                 index % 2 ? "lg:mt-20" : ""
               }`}
             >
-              <Link href={`/portfolio/#${book.slug}`} className="book-hover group block">
+              <div className="book-hover group">
                 <div data-fade data-y="70" data-delay={Math.min(index, 4) * 0.08}>
                   <Book slug={book.slug} sizes="(min-width: 1024px) 19vw, (min-width: 640px) 36vw, 58vw" />
                 </div>
@@ -56,7 +49,7 @@ export function PortfolioShelf() {
                   <h3 className="mt-2 font-display text-[1.6rem] leading-[1.12] text-balance">{book.title}</h3>
                   <p className="mt-1.5 text-sm text-ivory/60">{book.author}</p>
                 </div>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>

@@ -16,7 +16,6 @@ type Menu = "services" | null;
 const topLinks = {
   home: { label: "Home", href: "/" },
   about: { label: "About Us", href: "/about-us/" },
-  portfolio: { label: "Portfolio", href: "/portfolio/" },
   blog: { label: "Blog", href: "/blog/" },
   contact: { label: "Contact", href: "/contact-us/" },
 };
@@ -150,7 +149,6 @@ export function Header() {
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.home)}</li>
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.about)}</li>
               <li>{menuButton("services", "Services")}</li>
-              <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.portfolio)}</li>
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.blog)}</li>
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.contact)}</li>
             </ul>
@@ -292,7 +290,6 @@ export function Header() {
                 { type: "link" as const, ...topLinks.home },
                 { type: "link" as const, ...topLinks.about },
                 { type: "services" as const, label: "Services", href: "/services/" },
-                { type: "link" as const, ...topLinks.portfolio },
                 { type: "link" as const, ...topLinks.blog },
                 { type: "link" as const, ...topLinks.contact },
               ].map((item, index) => {
