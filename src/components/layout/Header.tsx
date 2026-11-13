@@ -20,7 +20,7 @@ const topLinks = {
   contact: { label: "Contact", href: "/contact-us/" },
 };
 
-const navText = "text-[0.8125rem] font-medium uppercase tracking-[0.14em]";
+const navText = "whitespace-nowrap text-[0.8125rem] font-medium uppercase tracking-[0.14em]";
 
 export function Header() {
   const pathname = usePathname();
@@ -132,19 +132,19 @@ export function Header() {
           >
             <Logo
               priority
-              className={`h-10 w-auto transition-opacity duration-500 lg:h-[3.1rem] ${
+              className={`h-10 w-auto transition-opacity duration-500 xl:h-[3.1rem] ${
                 mobileOpen ? "opacity-0" : "opacity-100"
               }`}
             />
             <Logo
               inverse
-              className={`absolute inset-0 h-10 w-auto transition-opacity duration-500 lg:h-[3.1rem] ${
+              className={`absolute inset-0 h-10 w-auto transition-opacity duration-500 xl:h-[3.1rem] ${
                 mobileOpen ? "opacity-100" : "opacity-0"
               }`}
             />
           </Link>
 
-          <nav aria-label="Primary" className="hidden lg:block">
+          <nav aria-label="Primary" className="hidden xl:block">
             <ul className="flex items-center gap-7 xl:gap-10">
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.home)}</li>
               <li onMouseEnter={() => setMenu(null)}>{navLink(topLinks.about)}</li>
@@ -168,7 +168,7 @@ export function Header() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               onClick={() => setMobileOpen((open) => !open)}
-              className={`relative grid size-12 place-items-center lg:hidden ${
+              className={`relative grid size-12 place-items-center xl:hidden ${
                 mobileOpen ? "text-ivory" : "text-navy"
               }`}
             >
@@ -194,7 +194,7 @@ export function Header() {
       <div
         id="menu-services"
         inert={menu !== "services"}
-        className={`absolute inset-x-0 top-full z-10 hidden border-b border-(--rule) bg-ivory transition-[clip-path,opacity] duration-700 ease-expo lg:block ${
+        className={`absolute inset-x-0 top-full z-10 hidden border-b border-(--rule) bg-ivory transition-[clip-path,opacity] duration-700 ease-expo xl:block ${
           menu === "services"
             ? "opacity-100 [clip-path:inset(0_0_-2rem_0)]"
             : "pointer-events-none opacity-0 [clip-path:inset(0_0_100%_0)]"
@@ -277,7 +277,7 @@ export function Header() {
       <div
         id="menu-resources"
         inert={menu !== "resources"}
-        className={`absolute inset-x-0 top-full z-10 hidden border-b border-(--rule) bg-ivory transition-[clip-path,opacity] duration-700 ease-expo lg:block ${
+        className={`absolute inset-x-0 top-full z-10 hidden border-b border-(--rule) bg-ivory transition-[clip-path,opacity] duration-700 ease-expo xl:block ${
           menu === "resources"
             ? "opacity-100 [clip-path:inset(0_0_-2rem_0)]"
             : "pointer-events-none opacity-0 [clip-path:inset(0_0_100%_0)]"
@@ -314,7 +314,7 @@ export function Header() {
       <div
         id="mobile-menu"
         inert={!mobileOpen}
-        className={`fixed inset-0 z-10 flex h-dvh flex-col bg-navy text-ivory transition-[clip-path] duration-[900ms] ease-smooth lg:hidden ${
+        className={`fixed inset-0 z-10 flex h-dvh flex-col bg-navy text-ivory transition-[clip-path] duration-[900ms] ease-smooth xl:hidden ${
           mobileOpen ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
         }`}
       >
