@@ -19,6 +19,8 @@ type PageHeroProps = {
   form?: boolean;
   /** Pre-selects this service in the form. */
   formService?: string;
+  /** Shows the label as a pill rather than a running head. */
+  pill?: boolean;
 };
 
 /** Shared opening for interior pages: breadcrumb, chapter mark, H1, lead form. */
@@ -31,6 +33,7 @@ export function PageHero({
   children,
   form = true,
   formService,
+  pill = false,
 }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden pt-[calc(var(--header-h)+2.5rem)] pb-20 lg:pt-[calc(var(--header-h)+4rem)] lg:pb-28">
@@ -74,10 +77,17 @@ export function PageHero({
           </nav>
 
           {label ? (
-            <p data-fade data-y="14" data-delay="0.05" className="eyebrow mt-10 flex items-center gap-4 text-gold-ink">
-              <span aria-hidden className="h-px w-10 bg-current opacity-60" />
-              {label}
-            </p>
+            pill ? (
+              <p data-fade data-y="14" data-delay="0.05" className="eyebrow mt-10 inline-flex items-center gap-2.5 border border-gold/60 bg-paper px-4 py-2 text-[0.68rem] text-navy">
+                <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+                {label}
+              </p>
+            ) : (
+              <p data-fade data-y="14" data-delay="0.05" className="eyebrow mt-10 flex items-center gap-4 text-gold-ink">
+                <span aria-hidden className="h-px w-10 bg-current opacity-60" />
+                {label}
+              </p>
+            )
           ) : null}
 
           <Words

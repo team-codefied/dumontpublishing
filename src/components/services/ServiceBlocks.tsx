@@ -1,7 +1,5 @@
-import { Book } from "@/components/ui/Book";
 import { DrawnCheck, Flourish, Seal } from "@/components/ui/Ornaments";
 import { Words } from "@/components/ui/Words";
-import { getBook, type BookSlug } from "@/content/books";
 import type { ServiceBlock } from "@/content/services";
 
 const two = (n: number) => String(n).padStart(2, "0");
@@ -12,9 +10,19 @@ type BlockProps<T extends ServiceBlock["type"]> = {
 };
 
 /** Section opener shared by every block: folio + H2 on a ruled line. */
-function BlockHeading({ index, heading, light = false }: { index: number; heading: string; light?: boolean }) {
+function BlockHeading({
+  index,
+  heading,
+  light = false,
+  centered = false,
+}: {
+  index: number;
+  heading: string;
+  light?: boolean;
+  centered?: boolean;
+}) {
   return (
-    <div>
+    <div className={centered ? "[&_svg]:mx-auto" : ""}>
       <span data-line className={`block h-px ${light ? "bg-(--rule-light)" : "bg-navy/25"}`} />
       <p data-fade data-y="12" className={`folio mt-6 text-lg ${light ? "text-gold" : "text-gold-ink"}`}>
         {two(index)}
@@ -67,58 +75,36 @@ function Checklist({ block, index }: BlockProps<"checklist">) {
   );
 }
 
-function SolutionItem({ name, text, i, light }: { name: string; text: string; i: number; light: boolean }) {
+/** The core offerings as numbered cards, in the manner of a product grid. */
+function FeaturedSolutions({ block, index, intro }: BlockProps<"solutions"> & { intro?: string }) {
   return (
-    <li className="group relative pt-7 pb-10 lg:pb-12">
-      <span data-line data-delay={(i % 2) * 0.1} className={`absolute inset-x-0 top-0 h-px ${light ? "bg-(--rule-light)" : "bg-navy/25"}`} />
-      {/* the rule turns gold under the pointer */}
-      <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gold transition-transform duration-700 ease-expo group-hover:scale-x-100" />
-      <div data-fade data-delay={(i % 2) * 0.1 + 0.1}>
-        <span className={`flex items-center gap-3 folio text-lg ${light ? "text-gold" : "text-gold-ink"}`}>
-          {two(i + 1)}
-          <span aria-hidden className="text-[0.6rem] not-italic transition-transform duration-700 ease-expo group-hover:rotate-180">
-            ✦
-          </span>
-        </span>
-        <h3 className={`display-3 mt-3 text-balance transition-transform duration-700 ease-expo group-hover:translate-x-1.5 ${light ? "text-ivory" : "text-navy"}`}>
-          {name}
-        </h3>
-        <p className={`mt-3 max-w-sm text-[0.975rem] leading-relaxed ${light ? "text-ivory/70" : "text-charcoal/75"}`}>
-          {text}
-        </p>
-      </div>
-    </li>
-  );
-}
-
-/** The core offerings, on navy, beside a book that turns as the reader scrolls. */
-function FeaturedSolutions({ block, index, cover }: BlockProps<"solutions"> & { cover: BookSlug }) {
-  const book = getBook(cover);
-  return (
-    <section data-turn-area className="relative bg-navy py-20 text-ivory lg:py-32">
-      <div className="shell grid gap-x-10 gap-y-16 lg:grid-cols-12">
-        <div className="lg:col-span-4">
-          <div className="lg:sticky lg:top-28">
-            <div className="relative mx-auto w-[52%] max-w-[17rem] lg:w-[78%]">
-              <span aria-hidden className="absolute -inset-[14%] rounded-full border border-gold/30" />
-              <span aria-hidden className="absolute -inset-[30%] rounded-full border border-gold/15" />
-              <Book slug={cover} sizes="(min-width: 1024px) 22vw, 52vw" depth={30} turn="-48,16" className="relative" />
-            </div>
-            <p className="mt-12 text-center text-[0.8rem] leading-snug text-ivory/55">
-              <span className="block font-display text-lg text-gold-pale italic">{book.title}</span>
-              {book.author} · {book.genre}
+    <section className="relative bg-navy py-20 text-ivory lg:py-32">
+      <div className="shell">
+        <div className="mx-auto max-w-3xl text-center">
+          <BlockHeading index={index} heading={block.heading} light centered />
+          {intro ? (
+            <p data-fade className="mx-auto mt-7 max-w-2xl text-[1.02rem] leading-[1.75] text-ivory/70">
+              {intro}
             </p>
-          </div>
+          ) : null}
         </div>
-
-        <div className="lg:col-span-7 lg:col-start-6">
-          <BlockHeading index={index} heading={block.heading} light />
-          <ul className="mt-12 grid gap-x-12 sm:grid-cols-2 lg:mt-16">
-            {block.items.map((item, i) => (
-              <SolutionItem key={item.name} name={item.name} text={item.text} i={i} light />
-            ))}
-          </ul>
-        </div>
+        <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+          {block.items.map((item, i) => (
+            <li key={item.name} data-fade data-y="50" data-delay={(i % 3) * 0.1}>
+              <article className="group relative h-full overflow-hidden border border-(--rule-light) bg-navy-soft/50 p-8 transition-[transform,border-color,background-color] duration-700 ease-expo hover:-translate-y-1.5 hover:border-gold/70 hover:bg-navy-soft">
+                <span aria-hidden className="absolute top-0 left-8 h-0.5 w-10 bg-gold transition-[width] duration-700 ease-expo group-hover:w-24" />
+                <span
+                  aria-hidden
+                  className="outline-text folio pointer-events-none absolute -top-3 right-4 text-[6.5rem] leading-none text-gold/35 transition-transform duration-700 ease-expo group-hover:-translate-y-1 group-hover:text-gold/60"
+                >
+                  {i + 1}
+                </span>
+                <h3 className="display-3 relative mt-6 max-w-[16rem] text-balance">{item.name}</h3>
+                <p className="relative mt-4 text-[0.975rem] leading-relaxed text-ivory/70">{item.text}</p>
+              </article>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -161,7 +147,7 @@ function Definitions({ block, index }: BlockProps<"solutions">) {
 /** Ordered steps along a drawn line, each marked by a pulsing point. */
 function Process({ block, index }: BlockProps<"process">) {
   return (
-    <section className="relative overflow-hidden bg-ivory-deep py-20 lg:py-32">
+    <section id="process" className="relative scroll-mt-24 overflow-hidden bg-ivory-deep py-20 lg:py-32">
       <div className="shell">
         <div className="max-w-3xl">
           <BlockHeading index={index} heading={block.heading} />
@@ -247,9 +233,9 @@ function Brief({ block, index, label }: BlockProps<"brief"> & { label: string })
   );
 }
 
-type ServiceBlocksProps = { blocks: ServiceBlock[]; cover: BookSlug; label: string };
+type ServiceBlocksProps = { blocks: ServiceBlock[]; label: string; supportText?: string };
 
-export function ServiceBlocks({ blocks, cover, label }: ServiceBlocksProps) {
+export function ServiceBlocks({ blocks, label, supportText }: ServiceBlocksProps) {
   const featured = blocks.findIndex((block) => block.type === "solutions");
 
   return (
@@ -261,7 +247,7 @@ export function ServiceBlocks({ blocks, cover, label }: ServiceBlocksProps) {
             return <Checklist key={block.heading} block={block} index={index} />;
           case "solutions":
             return i === featured ? (
-              <FeaturedSolutions key={block.heading} block={block} index={index} cover={cover} />
+              <FeaturedSolutions key={block.heading} block={block} index={index} intro={supportText} />
             ) : (
               <Definitions key={block.heading} block={block} index={index} />
             );
